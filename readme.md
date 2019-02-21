@@ -6,9 +6,7 @@ Google Authenticator implementation in python.
 
 First install dependencies:
 
-    $ sudo pip3 install requests
-    $ sudo pip3 install pillow
-    $ sudo pip3 install pyzbar
+    $ sudo pip3 install -r requirements.txt
 
 Then type
 
