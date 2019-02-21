@@ -116,6 +116,35 @@ def addURI(args):
 
   add(secret, label, issuer)
 
+def addFile(args):
+  import io
+
+  from PIL import Image
+  from pyzbar.pyzbar import decode
+
+  path = args[0]
+
+  if not os.path.isfile( path ):
+    print("[-] {0} is not exist!".format(path))
+    return
+
+  qr = decode(Image.open(path))   
+
+  uri = urllib.parse.urlparse(qr[0].data.decode('utf-8'))
+
+  if uri.scheme != "otpauth" or uri.netloc != "totp":
+    print("[-] Only totp is supported.")
+    return
+
+  query = urllib.parse.parse_qs(uri.query)
+
+  secret = query['secret'][0]
+  issuer = query['issuer'][0]
+
+  label = uri.path[1:]
+
+  add(secret, label, issuer)
+
 def eraseLines(n):
   CURSOR_UP_ONE = '\x1b[1A'
   ERASE_LINE = '\x1b[2K'
@@ -169,12 +198,14 @@ def usage():
   print("Usage:")
   print("  $ ./{0} add-secret <secret> [label] [issuer]".format(sys.argv[0]))
   print("  $ ./{0} add-uri <qr-code url or key uri>".format(sys.argv[0]))
+  print("  $ ./{0} add-file <local qr-code image>".format(sys.argv[0]))
   print("  $ ./{0} remove-by-label <label>".format(sys.argv[0]))
   print("  $ ./{0} list".format(sys.argv[0]))
   print("")
   print("Examples:")
   print("  $ ./{0} add-secret HXDMVJECJJWSRB3HWIZR4IFUGFTMXBOZ Example:alice@google.com Example".format(sys.argv[0]))
   print("  $ ./{0} add-uri 'otpauth://totp/Example:alice@google.com?secret=HXDMVJECJJWSRB3HWIZR4IFUGFTMXBOZ&issuer=Example'".format(sys.argv[0]))
+  print("  $ ./{0} add-file qrcode.png".format(sys.argv[0]))
   print("  $ ./{0} remove-by-label 'Example:alice@google.com'".format(sys.argv[0]))
 
 
@@ -186,6 +217,8 @@ def main(args):
     addSecret(args[2:])
   elif args[1] == 'add-uri' and len(args) == 3:
     addURI(args[2:])
+  elif args[1] == 'add-file' and len(args) == 3:
+    addFile(args[2:])
   elif args[1] == 'list':
     listCodes()
   elif args[1] == 'remove-by-label' and len(args) == 3:
