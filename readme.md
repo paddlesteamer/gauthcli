@@ -16,16 +16,16 @@ Then type
 
 to see the usage.
 
-    $ ./gauth.py add-secret <secret> [label] [issuer]
-    $ ./gauth.py add-uri <qr-code url or key uri>
-    $ ./gauth.py remove-by-label <label>
-    $ ./gauth.py list
+    $ ./gauthcli.py add-secret <secret> [label] [issuer]
+    $ ./gauthcli.py add-uri <qr-code url or key uri>
+    $ ./gauthcli.py remove-by-label <label>
+    $ ./gauthcli.py list
 
 ## Examples
 
-    $ ./gauth.py add-secret HXDMVJECJJWSRB3HWIZR4IFUGFTMXBOZ Example:alice@google.com Example
-    $ ./gauth.py add-uri 'otpauth://totp/Example:alice@google.com?secret=HXDMVJECJJWSRB3HWIZR4IFUGFTMXBOZ&issuer=Example'
-    $ ./gauth.py remove-by-label 'Example:alice@google.com'
+    $ ./gauthcli.py add-secret HXDMVJECJJWSRB3HWIZR4IFUGFTMXBOZ Example:alice@google.com Example
+    $ ./gauthcli.py add-uri 'otpauth://totp/Example:alice@google.com?secret=HXDMVJECJJWSRB3HWIZR4IFUGFTMXBOZ&issuer=Example'
+    $ ./gauthcli.py remove-by-label 'Example:alice@google.com'
 
 ## Notes
 
