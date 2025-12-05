@@ -19,7 +19,11 @@ config = {
 # https://stackoverflow.com/questions/8529265/google-authenticator-implementation-in-python
 # It is slightly edited due to a bug
 def get_hotp_token(secret, intervals_no):
-  key = base64.b32decode(secret, True)
+  key = ''
+  try:
+    key = base64.b32decode(secret, True)
+  except: # assume hex string
+    key = bytes.fromhex(secret)
   msg = struct.pack(">Q", intervals_no)
   h = hmac.new(key, msg, hashlib.sha1).digest()
   try:
